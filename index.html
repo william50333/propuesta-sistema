@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoGarden Digital | Sistema de Gestión para Huerto Escolar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --success: #2ec4b6;
+            --warning: #ff9f1c;
+            --danger: #e71d36;
+            --dark: #011627;
+            --light: #fdfffc;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--light);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .particles-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: floatParticle 15s infinite linear;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .presentation-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            perspective: 1000px;
+        }
+
+        .slide {
+            display: none;
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            animation: slideIn 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            color: var(--dark);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .slide::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--success));
+            z-index: 2;
+        }
+
+        .slide::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, var(--primary), transparent);
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
+            z-index: 1;
+            opacity: 0.05;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) rotateX(-10deg) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0) scale(1);
+            }
+        }
+
+        .logo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(67, 97, 238, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-counter {
+            background: var(--primary);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .slide h1 {
+            font-size: 3.2rem;
+            margin-bottom: 25px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .slide h1::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+
+        .slide h2 {
+            font-size: 2.4rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary);
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .slide h3 {
+            font-size: 1.8rem;
+            margin: 25px 0 15px 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--primary);
+        }
+
+        .slide p, .slide li {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #444;
+            font-weight: 400;
+        }
+
+        .slide ul {
+            margin-left: 25px;
+            margin-bottom: 25px;
+        }
+
+        .slide li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .slide li::before {
+            content: "●";
+            color: var(--accent);
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 1.5rem;
+            position: absolute;
+            left: -20px;
+            top: -2px;
+        }
+
+        .icon {
+            font-size: 5.5rem;
+            text-align: center;
+            margin: 30px 0;
+            animation: float 6s ease-in-out infinite;
+            color: var(--primary);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-15px) rotate(3deg); }
+            66% { transform: translateY(10px) rotate(-3deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(67, 97, 238, 0.2);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .highlight::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -50%; }
+            100% { left: 100%; }
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-card h3 {
+            font-size: 1.6rem;
+            margin: 20px 0;
+            color: var(--dark);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .objective-item {
+            background: rgba(46, 196, 182, 0.1);
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 12px;
+            border-left: 5px solid var(--success);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .objective-item:hover {
+            transform: translateX(10px);
+            background: rgba(46, 196, 182, 0.15);
+        }
+
+        .objective-icon {
+            font-size: 2rem;
+            color: var(--success);
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .tech-item {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 160px;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-8px) rotate(2deg);
+            box-shadow: 0 15px 35px rgba(67, 97, 238, 0.4);
+        }
+
+        .tech-icon {
+            font-size: 1.8rem;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 30px 0;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            background: white;
+            padding: 30px;
+            margin: 25px 0;
+            border-radius: 16px;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -42px;
+            top: 35px;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 5px solid white;
+            box-shadow: 0 0 0 3px var(--primary);
+            z-index: 2;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .timeline-item h4 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .download-section {
+            text-align: center;
+            margin-top: 50px;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, var(--success) 0%, #2ecc71 100%);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 15px;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(46, 196, 182, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(46, 196, 182, 0.4);
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 25px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(67, 97, 238, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(67, 97, 238, 0.4);
+        }
+
+        .nav-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--success));
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            z-index: 90;
+        }
+
+        @media (max-width: 1200px) {
+            .slide {
+                padding: 40px;
+            }
+            
+            .slide h1 {
+                font-size: 2.8rem;
+            }
+            
+            .slide h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .slide {
+                padding: 35px 30px;
+            }
+            
+            .slide h1 {
+                font-size: 2.5rem;
+            }
+            
+            .slide h2 {
+                font-size: 2rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                margin: 15px;
+                padding: 30px 25px;
+            }
+
+            .slide h1 {
+                font-size: 2.2rem;
+            }
+
+            .slide h2 {
+                font-size: 1.8rem;
+            }
+            
+            .slide h3 {
+                font-size: 1.5rem;
+            }
+
+            .navigation {
+                bottom: 20px;
+                gap: 15px;
+            }
+
+            .nav-btn {
+                padding: 14px 25px;
+                font-size: 1rem;
+            }
+            
+            .tech-stack {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tech-item {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .download-btn {
+                padding: 16px 30px;
+                font-size: 1rem;
+            }
+            
+            .logo-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles-container" id="particles"></div>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="presentation-container">
+        <!-- Slide 1: Portada -->
+        <div class="slide active">
+            <div class="logo-header">
+                <div class="logo">
+                    <div class="logo-icon">🌱</div>
+                    <div class="logo-text">EcoGarden Digital</div>
+                </div>
+                <div class="slide-counter">
+                    <span id="currentSlide">1</span> / <span id="totalSlides">8</span>
+                </div>
+            </div>
+            
+            <h1>Transformando la Educación Ambiental con Tecnología</h1>
+            <div class="icon">🌿📊</div>
+            <div class="highlight">
+                <h3>Sistema de Gestión Digital para Huerto Escolar</h3>
+                <p>Integrando innovación tecnológica y educación ambiental para el futuro</p>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <p><strong>Proyecto de Desarrollo de Software Educativo</strong></p>
+                <p>Presentado por: [WILLIAM ANTONIO GAMEZ MORALES]</p>
+                <p>Institución: [C.E 10 DE OCTUBRE 1987]</p>
+                <p>Fecha: [30-08-2025]</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Descripción del Proyecto -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo">
+                    <div class="logo-icon">🌱</div>
+                    <div class="logo-text">EcoGarden Digital</div>
+                </div>
+                <div class="slide-counter">
+                    <span id="currentSlide">2</span> / <span id="totalSlides">8</span>
+                </div>
+            </div>
+            
+            <h2>¿Qué es EcoGarden Digital?</h2>
+            <div class="icon">📱🌻</div>
+            <p>Una solución móvil educativa integral que revoluciona la gestión de huertos escolares mediante la convergencia de:</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-laptop-code"></i></div>
+                    <h3>Tecnología Avanzada</h3>
+                    <p>App móvil con análisis de datos en tiempo real</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Educación Interactiva</h3>
+                    <p>Aprendizaje experiencial y multidisciplinario</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-leaf"></i></div>
+                    <h3>Sostenibilidad</h3>
+                    <p>Conciencia ecológica y prácticas sustentables</p>
+                </div>
+            </div>
+            <div class="highlight">
+                <strong>Visión:</strong> Transformar el huerto escolar tradicional en un laboratorio educativo tecnológico de vanguardia
+            </div>
+        </div>
+
+        <!-- Slide 3: Características Principales -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo">
+                    <div class="logo-icon">🌱</div>
+                    <div class="logo-text">EcoGarden Digital</div>
+                </div>
+                <div class="slide-counter">
+                    <span id="currentSlide">3</span> / <span id="totalSlides">8</span>
+                </div>
+            </div>
+            
+            <h2>Características Principales</h2>
+            <div class="icon">⚡️</div>
+            <ul>
+                <li><strong>Registro de plantas:</strong> Catálogo digital completo con información detallada y seguimiento individual</li>
+                <li><strong>Monitoreo de crecimiento:</strong> Seguimiento fotográfico comparativo y mediciones precisas con análisis temporal</li>
+                <li><strong>Control de riego:</strong> Programación inteligente de actividades de cuidado con recordatorios automáticos</li>
+                <li><strong>Diario digital colaborativo:</strong> Registro multimedia de observaciones y actividades diarias</li>
+                <li><strong>Sistema de usuarios multirol:</strong> Perfiles diferenciados para estudiantes, docentes y administradores</li>
+            </ul>
+        </div>
+
+        <!-- Slide 4: Alcances -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo">
+                    <div class="logo-icon">🌱</div>
+                    <div class="logo-text">EcoGarden Digital</div>
+                </div>
+                <div class="slide-counter">
+                    <span id="currentSlide">4</span> / <span id="totalSlides">8</span>
+                </div>
+            </div>
+            
+            <h2>Alcances del Proyecto</h2>
+            <div class="icon">🎯</div>
+            
+            <h3><i class="fas fa-microchip"></i> Alcance Técnico</h3>
+            <div class="tech-stack">
+                <div class="tech-item"><i class="fab fa-flutter tech-icon"></i> FLUTTER</div>
+                <div class="tech-item"><i class="fas fa-database tech-icon"></i> FIREBASE</div>
+                <div class="tech-item"><i class="fas fa-code tech-icon"></i> DART</div>
+                <div class="tech-item"><i class="fas fa-server tech-icon"></i> MySQL</div>
+            </div>
+
+            <h3><i class="fas fa-book-open"></i> Alcance Educativo</h3>
+            <ul>
+                <li>Niveles: 6° grado a 2do año de bachillerato</li>
+                <li>Materias integradas: Informática, Ciencias Naturales, Matemáticas, Estudios Sociales</li>
+                <li>Competencias desarrolladas: Digitales, científicas, ambientales y colaborativas</li>
+            </ul>
+
+            <h3><i class="fas fa-users"></i> Alcance de Usuarios</h3>
+            <p>Hasta 200 usuarios simultáneos con perfiles escalables para estudiantes, docentes y administradores</p>
+        </div>
+
+        <!-- Slide 5: Justificación -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo">
+                    <div class="logo-icon">🌱</div>
+                    <div class="logo-text">EcoGarden Digital</div>
+                </div>
+                <div class="slide-counter">
+                    <span id="currentSlide">5</span> / <span id="totalSlides">8</span>
+                </div>
+            </div>
+            
+            <h2>¿Por qué es necesario este proyecto?</h2>
+            <div class="icon">❓</div>
+            
+            <h3><i class="fas fa-exclamation-triangle"></i> Problemática Actual</h3>
+            <ul>
+                <li>Falta de sistematización en la gestión de huertos escolares tradicionales</li>
+                <li>Pérdida de información valiosa por registros manuales no organizados</li>
+                <li>Dificultad para realizar seguimiento longitudinal y análisis comparativo</li>
+                <li>Desconexión entre la educación ambiental y el desarrollo de competencias digitales</li>
+            </ul>
+
+            <h3><i class="fas fa-lightbulb"></i> Oportunidad de Innovación</h3>
+            <div class="highlight">
+                Este proyecto representa una oportunidad única para modernizar la educación agrícola con herramientas digitales, creando una experiencia de aprendizaje interdisciplinaria que desarrolla competencias esenciales.
+            </div>
+        </div>
+
+        <!-- Slide 6: Objetivos -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo">
+                    <div class="logo-icon">🌱</div>
+                    <div class="logo-text">EcoGarden Digital</div>
+                </div>
+                <div class="slide-counter">
+                    <span id="currentSlide">6</span> / <span id="totalSlides">8</span>
+                </div>
+            </div>
+            
+            <h2>Objetivos del Proyecto</h2>
+            <div class="icon">🎯</div>
+            
+            <div class="highlight">
+                <h3>🎯 Objetivo General</h3>
+                <p>Desarrollar una aplicación móvil que permita gestionar integralmente un huerto escolar, integrando tecnologías digitales para optimizar el proceso de enseñanza-aprendizaje en educación ambiental.</p>
+            </div>
+
+            <h3>📋 Objetivos Específicos</h3>
+           
+            <div class="objective-item">
+                <div class="objective-icon"><i class="fas fa-graduation-cap"></i></div>
+                <div>
+                    <strong>Educativos:</strong> Facilitar el aprendizaje experiencial e interdisciplinario mediante herramientas tecnológicas
+                </div>
+            </div>
+            <div class="objective-item">
+                <div class="objective-icon"><i class="fas fa-leaf"></i></div>
+                <div>
+                    <strong>Ambientales:</strong> Promover conciencia ecológica, sostenibilidad y agricultura responsable
+                </div>
+            </div>
+            <div class="objective-item">
+                <div class="objective-icon"><i class="fas fa-tasks"></i></div>
+                <div>
+                    <strong>Gestión:</strong> Sistematizar el registro, monitoreo y análisis del huerto escolar mediante tecnología digital
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Metodología y Cronograma -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo">
+                    <div class="logo-icon">🌱</div>
+                    <div class="logo-text">EcoGarden Digital</div>
+                </div>
+                <div class="slide-counter">
+                    <span id="currentSlide">7</span> / <span id="totalSlides">8</span>
+                </div>
+            </div>
+            
+            <h2>Metodología y Cronograma</h2>
+            <div class="icon">📅</div>
+            
+            <h3>📋 Fases del Proyecto</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Fase 1: Análisis y Diseño (4 semanas)</h4>
+                    <p>Investigación de requerimientos, diseño de la base de datos, arquitectura del sistema y wireframes de la interfaz</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Fase 2: Desarrollo del Sistema (8 semanas)</h4>
+                    <p>Programación de la aplicación móvil, implementación de funcionalidades principales y integración de servicios</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Fase 3: Pruebas y Ajustes (2 semanas)</h4>
+                    <p>Testing de usabilidad, corrección de errores, optimización del sistema y pruebas de carga</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Fase 4: Implementación (2 semanas)</h4>
+                    <p>Despliegue en entornos productivos, capacitación de usuarios y documentación técnica final</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Resultados Esperados y Descarga -->
+        <div class="slide">
+            <div class="logo-header">
+                <div class="logo">
+                    <div class="logo-icon">🌱</div>
+                    <div class="logo-text">EcoGarden Digital</div>
+                </div>
+                <div class="slide-counter">
+                    <span id="currentSlide">8</span> / <span id="totalSlides">8</span>
+                </div>
+            </div>
+            
+            <h2>Resultados Esperados</h2>
+            <div class="icon">🚀</div>
+            
+            <h3>📊 Al finalizar el proyecto tendremos:</h3>
+            <ul>
+                <li>Aplicación móvil funcional completamente operativa con todas las características planificadas</li>
+                <li>Base de datos centralizada poblada con información inicial del huerto escolar</li>
+                <li>Manual de usuario y documentación técnica completa para mantenimiento y escalabilidad</li>
+                <li>Comunidad educativa capacitada en el uso del sistema con guías de implementación curricular</li>
+                <li>Modelo de integración curricular efectiva replicable en otras instituciones educativas</li>
+            </ul>
+
+            <div class="highlight">
+                <h3>🌟 Impacto Esperado</h3>
+                <p>"Cultivando conocimiento, cosechando tecnología"</p>
+                <p>Formar una generación de estudiantes preparados para los desafíos del futuro con conciencia ecológica y competencias digitales avanzadas.</p>
+            </div>
+
+            <div class="download-section">
+                <h3>📥 Documentación del Proyecto</h3>
+                <button class="download-btn" onclick="downloadProposal()">
+                    <i class="fas fa-download"></i> Descargar Propuesta Completa
+                </button>
+                <button class="download-btn" onclick="downloadPresentation()">
+                    <i class="fas fa-file-powerpoint"></i> Descargar Presentación
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)"><i class="fas fa-arrow-left"></i> Anterior</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Siguiente <i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <div class="footer">
+        EcoGarden Digital © 2025 - Transformando la educación ambiental
+    </div>
+
+    <script>
+        // Crear partículas de fondo
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Tamaño aleatorio
+                const size = Math.random() * 20 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Posición aleatoria
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Opacidad aleatoria
+                particle.style.opacity = Math.random() * 0.3 + 0.1;
+                
+                // Animación con duración aleatoria
+                const duration = Math.random() * 20 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Delay aleatorio
+                particle.style.animationDelay = `-${Math.random() * 20}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progressBar = document.getElementById('progressBar');
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            
+            // Actualizar botones de navegación
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+            
+            // Actualizar barra de progreso
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+        }
+
+        function changeSlide(direction) {
+            if (direction === 1 && currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            } else if (direction === -1 && currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === ' ') changeSlide(1); // Espacio también avanza
+        });
+
+        // Navegación con gestos táctiles
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+        
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+        
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) changeSlide(1); // Deslizar izquierda
+            if (touchEndX > touchStartX + 50) changeSlide(-1); // Deslizar derecha
+        }
+
+        // Inicializar
+        createParticles();
+        showSlide(0);
+
+        function downloadProposal() {
+            const proposalContent = `...`; // Contenido de la propuesta
+            
+            downloadTextFile('Propuesta_EcoGarden_Digital.txt', proposalContent);
+        }
+
+        function downloadPresentation() {
+            const presentationHTML = document.documentElement.outerHTML;
+            downloadTextFile('Presentacion_EcoGarden_Digital.html', presentationHTML);
+        }
+
+        function downloadTextFile(filename, content) {
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+            element.setAttribute('download', filename);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        // Efecto de escritura automática para el título principal (opcional)
+        function typeWriterEffect() {
+            const title = document.querySelector('.slide.active h1');
+            if (title && !title.getAttribute('data-typed')) {
+                const originalText = title.textContent;
+                title.textContent = '';
+                title.setAttribute('data-typed', 'true');
+                
+                let i = 0;
+                const speed = 50;
+                
+                function type() {
+                    if (i < originalText.length) {
+                        title.textContent += originalText.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    }
+                }
+                
+                type();
+            }
+        }
+
+        // Observar cambios en las diapositivas para aplicar efectos
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    if (mutation.target.classList.contains('active')) {
+                        typeWriterEffect();
+                    }
+                }
+            });
+        });
+
+        // Configurar observador para cada diapositiva
+        slides.forEach(slide => {
+            observer.observe(slide, { attributes: true });
+        });
+    </script>
+</body>
+</html>
